@@ -23,6 +23,7 @@ function removeClass(element, removed) {
   return className
 }
 
+const BLANK_REGEX = new RegExp(/ /,'g')
 function replaceBlank(value) {
-  return value.replace(" ", "&nbsp;")
+  return value.replace(BLANK_REGEX, "&nbsp;")
 }

@@ -317,6 +317,8 @@ const options = function getOptions() {
     {id: 313, value: "Old Ashton"},
     {id: 314, value: "Lothlann"},
     {id: 315, value: "Erede"},
-    {id: 316, value: "Ecrin"}
+    {id: 316, value: "Ecrin"},
+    {id: 317, value: "I am rich or pool"},
+    {id: 318, value: "Iamrichorpoool"}
   ]
 }()

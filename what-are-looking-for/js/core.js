@@ -31,8 +31,24 @@ const caseMatcher = {
 }
 
 const wordMatcher = {
-  match: (pattern, target) => {
-
+  flags: [],
+  regex: null,
+  getWordRegex: function (pattern) {
+    let regexPattern = `\\b${pattern}\\b`;
+    if (!this.regex || this.regex.source !== regexPattern) {
+      console.log("new Regex: ", pattern)
+      this.regex = new RegExp(regexPattern, this.flags.join(""))
+    }
+    return this.regex
+  },
+  match: function (pattern, target) {
+    const regex = this.getWordRegex(pattern)
+    return RegExp.prototype.test.call(regex, target)
+  },
+  find: function (pattern, target) {
+    const regex = this.getWordRegex(pattern)
+    let matchResult = String.prototype.match.call(target, regex);
+    return {matchValue: matchResult[0], index: matchResult.index}
   }
 }
 
@@ -41,6 +57,7 @@ const regexMatcher = {
   regex: null,
   getRegex: function (pattern) {
     if (!this.regex || this.regex.source !== pattern) {
+      console.log("new Regex: ", pattern)
       this.regex = new RegExp(pattern, this.flags.join(""))
     }
     return this.regex
