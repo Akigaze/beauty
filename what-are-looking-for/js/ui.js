@@ -25,13 +25,16 @@ const elementRenderer = {
 
 const elementCreator = {
   option: ({id, value}, index, selected) => {
-    const {matchValue, filling} = getOptionValue(value, state.content)
-    return `<div id="option-${index}" class="option ${selected ? 'selected' : ''}" onclick="optionEventHandler.click(${index})"><div class="option-id">${id}</div><div class="option-value"><span class="search-content">${matchValue}</span>${filling}</div></div>`
+    const {front, middle, end} = getOptionValue(value, state.content)
+    const key = `option-${index}`
+    const className = `option ${selected ? 'selected' : ''}`
+    return `<div id="${key}" class="${className}" onclick="optionEventHandler.click(${index})"><div class="option-id">${id}</div><div class="option-value">${front}<span class="search-content">${middle}</span>${end}</div></div>`
   }
 }
 
-const getOptionValue = (value, prefix) => {
-  const matchValue = MatchExecutor.find(prefix, value)
-  const filling = [...value].filter((c, i) => matchValue[i] !== c).join("")
-  return {matchValue: matchValue.replace(" ", "&nbsp;"), filling: filling.replace(" ", "&nbsp;")}
+const getOptionValue = (value, pattern) => {
+  const {matchValue, index} = MatchExecutor.find(pattern, value)
+  const front = value.slice(0, index)
+  const end = value.slice(index + matchValue.length)
+  return {middle: replaceBlank(matchValue), front: replaceBlank(front), end: replaceBlank(end)}
 }

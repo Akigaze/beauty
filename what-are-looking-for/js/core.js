@@ -9,54 +9,60 @@ const MatchName = {
 }
 
 const simpleMatcher = {
-  match: (condition, target) => {
-    return String.prototype.startsWith.call(target, condition)
+  match: (pattern, target) => {
+    return String.prototype.startsWith.call(target, pattern)
   },
-  find: (condition, target) => {
-    return [...target].filter((c, i) => condition[i] === c).join("")
+  find: (pattern, target) => {
+    const matchValue = [...target].filter((c, i) => pattern[i] === c).join("");
+    return {matchValue, index: 0}
   }
 }
 
 const caseMatcher = {
-  match: (condition, target) => {
+  match: (pattern, target) => {
     const caseConvert = String.prototype.toLowerCase
-    return String.prototype.startsWith.call(caseConvert.apply(target), caseConvert.apply(condition))
+    return String.prototype.startsWith.call(caseConvert.apply(target), caseConvert.apply(pattern))
   },
-  find: (condition, target) => {
+  find: (pattern, target) => {
     const caseConvert = String.prototype.toLowerCase
-    return [...target].filter((c, i) => condition[i] && caseConvert.apply(condition[i]) === caseConvert.apply(c)).join("")
+    const matchValue = [...target].filter((c, i) => pattern[i] && caseConvert.apply(pattern[i]) === caseConvert.apply(c)).join("");
+    return {matchValue, index: 0}
   }
 }
 
 const wordMatcher = {
-  match: (condition, target) => {
+  match: (pattern, target) => {
 
   }
 }
 
 const regexMatcher = {
-  _flags: [],
-  flags: {
-    get() {
-      return this._flags.join("")
-    },
-    set(flag) {
-      this._flags.push(flag)
+  flags: [],
+  regex: null,
+  getRegex: function (pattern) {
+    if (!this.regex || this.regex.source !== pattern) {
+      this.regex = new RegExp(pattern, this.flags.join(""))
     }
+    return this.regex
   },
-  match: (condition, target) => {
-    const regex = new RegExp(condition, this.flags)
-    return String.prototype.test.call(target, regex)
+  match: function (pattern, target) {
+    const regex = this.getRegex(pattern)
+    return RegExp.prototype.test.call(regex, target)
+  },
+  find: function (pattern, target) {
+    const regex = this.getRegex(pattern)
+    let matchResult = String.prototype.match.call(target, regex);
+    return {matchValue: matchResult[0], index: matchResult.index}
   }
 }
 
 const MatchExecutor = {
   matcher: simpleMatcher,
-  match: function (condition, target) {
-    return this.matcher.match(condition, target)
+  match: function (pattern, target) {
+    return this.matcher.match(pattern, target)
   },
-  find: function (condition, target) {
-    return this.matcher.find(condition, target)
+  find: function (pattern, target) {
+    return this.matcher.find(pattern, target)
   }
 }
 

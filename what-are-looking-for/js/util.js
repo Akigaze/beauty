@@ -23,3 +23,6 @@ function removeClass(element, removed) {
   return className
 }
 
+function replaceBlank(value) {
+  return value.replace(" ", "&nbsp;")
+}

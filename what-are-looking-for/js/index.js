@@ -204,7 +204,11 @@ function updateSelectedOption(preIndex, nextIndex) {
 
 function filterOptions() {
   if (state.content) {
-    state.setOptions(options.filter(option => MatchExecutor.match(state.content, option.value)))
+    try {
+      state.setOptions(options.filter(option => MatchExecutor.match(state.content, option.value)))
+    } catch (e) {
+      // console.log(state.content, e)
+    }
   }
 }
 
@@ -225,6 +229,11 @@ function clearOptionListIfNoOptionMatch() {
 }
 
 function updateOptionList() {
-  const optionDivs = state.options.map((option, index) => elementCreator.option(option, index, false))
-  elementRenderer.fillOptionList(optionDivs.join(""))
+  try {
+    const optionDivs = state.options.map((option, index) => elementCreator.option(option, index, false))
+    elementRenderer.fillOptionList(optionDivs.join(""))
+  } catch (e) {
+    // console.log(state.content, e)
+  }
+
 }
