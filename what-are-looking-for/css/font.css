@@ -1,0 +1,23 @@
+@font-face {
+  font-family: 'lato';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../font/lato-thin.woff2") format('woff2');
+}
+
+@font-face {
+  font-family: 'lato';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url("../font/lato-heavy.woff2") format('woff2');
+}
+
+@font-face {
+  font-family: 'lato';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url("../font/lato-black.woff2") format('woff2');
+}
