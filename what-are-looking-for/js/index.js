@@ -1,57 +1,5 @@
 console.log("what are you looking for?")
 
-const options = [
-  {id: 2, value: 'America'},
-  {id: 4, value: 'Japan'},
-  {id: 9, value: 'Break dance'},
-  {id: 10, value: 'China'},
-  {id: 12, value: 'Korea'},
-  {id: 17, value: 'Breezeblocks'},
-  {id: 23, value: 'Breach'},
-  {id: 27, value: 'Breakfast'},
-  {id: 54, value: 'England'},
-]
-
-const state = {
-  content: '',
-  options: [],
-  selectedIndex: -1
-}
-
-state.setContent = function (content) {
-  this.content = content || ""
-}.bind(state)
-state.setOptions = function (options) {
-  this.options = options || []
-}.bind(state)
-state.setSelectedIndex = function (index) {
-  this.selectedIndex = index || -1
-}.bind(state)
-
-state.rest = function () {
-  this.content = ''
-  this.options = []
-  this.selectedIndex = -1
-}.bind(state)
-
-const elementGetter = {
-  input: () => document.querySelector("input"),
-  searchIcon: () => document.querySelector(".search-icon"),
-  optionList: () => document.querySelector(".option-list"),
-  option: (index) => document.getElementById(`option-${index}`),
-  clearButton: () => document.querySelector(".clear-content"),
-}
-
-const elementRenderer = {
-  clearAll: () => {
-    elementGetter.optionList().innerHTML = ""
-    elementGetter.input().value = ""
-    elementGetter.clearButton().setAttribute("class", "clear-content invisible")
-  },
-  clearOptionsList: () => elementGetter.optionList().innerHTML = "",
-  fillOptionList: (html) => elementGetter.optionList().innerHTML = html
-}
-
 const optionEventHandler = function () {
   const optionClick = (index) => {
     if (state.selectedIndex === index) {
@@ -69,37 +17,6 @@ const optionEventHandler = function () {
 }()
 
 const inputEventHandler = function () {
-  const getRestLetter = (value, prefix) => {
-    const rest = [...value].filter((c, i) => prefix[i] !== c)
-    return rest.length > 0 ? rest.join("") : ""
-  }
-
-  const createOption = ({id, value}, index, selected) => {
-    const content = state.content.replace(" ", "&nbsp;")
-    const filling = getRestLetter(value, state.content).replace(" ", "&nbsp;")
-    return `<div id="option-${index}" class="option ${selected ? 'selected' : ''}" onclick="optionEventHandler.click(${index})"><div class="option-id">${id}</div><div class="option-value"><span class="search-content">${content}</span>${filling}</div></div>`
-  }
-
-  const clearOptionListIfSearchContentIsEmpty = () => {
-    if (!state.content) {
-      state.setOptions()
-      elementRenderer.clearOptionsList()
-      return true
-    }
-  }
-
-  const clearOptionListIfNoOptionMatch = () => {
-    if (state.options.length === 0) {
-      state.setOptions()
-      elementRenderer.clearOptionsList()
-      return true
-    }
-  }
-
-  const updateOptionList = () => {
-    const optionDivs = state.options.map((option, index) => createOption(option, index, false))
-    elementRenderer.fillOptionList(optionDivs.join(""))
-  }
 
   const handleClearButton = () => {
     elementGetter.clearButton().setAttribute("class", `clear-content ${state.content ? "" : "invisible"}`)
@@ -121,7 +38,7 @@ const inputEventHandler = function () {
       return
     }
 
-    state.options = options.filter(option => option.value.startsWith(state.content))
+    filterOptions()
 
     if (clearOptionListIfNoOptionMatch()) {
       return;
@@ -175,6 +92,57 @@ const clearButtonEventHandler = function () {
   return {click: clearContent}
 }()
 
+const searchSettingEventHandler = function () {
+  const renderOptions = {
+    true: elementRenderer.active,
+    false: elementRenderer.inactive
+  }
+
+  const setMatcher = (name, {added}) => {
+    state[name](added)
+    MatchExecutor.matcher = MatchFactory.get(added ? name : null)
+  }
+
+  const reFilterOptions = () => {
+    filterOptions()
+    if (clearOptionListIfNoOptionMatch()) {
+      return;
+    }
+    updateOptionList()
+    elementGetter.input().focus()
+  }
+
+  const caseMatchClick = (event) => {
+    const matchName = MatchName.case;
+    const added = !state.setting[matchName];
+    setMatcher(matchName, {added: added})
+    reFilterOptions()
+    renderOptions[added](elementGetter.caseMatchButton(), 'active')
+  }
+
+  const wordMatchClick = (event) => {
+    const matchName = MatchName.word;
+    const added = !state.setting[matchName];
+    setMatcher(matchName, {added: added})
+    reFilterOptions()
+    renderOptions[added](elementGetter.wordMatchButton(), 'active')
+  }
+
+  const regexMatchClick = (event) => {
+    const matchName = MatchName.regex;
+    const added = !state.setting[matchName];
+    setMatcher(matchName, {added: added})
+    renderOptions[added](elementGetter.regexMatchButton(), 'active')
+    reFilterOptions()
+  }
+
+  return {
+    caseMatchClick,
+    wordMatchClick,
+    regexMatchClick,
+  }
+}()
+
 window.onload = () => {
   eventManage(Element.prototype.addEventListener)
 }
@@ -193,6 +161,13 @@ function eventManage(action) {
   action.call(searchIcon, 'click', searchIconEventHandler.click)
   const clearButton = elementGetter.clearButton()
   action.call(clearButton, 'click', clearButtonEventHandler.click)
+
+  const caseMatchButton = elementGetter.caseMatchButton()
+  action.call(caseMatchButton, 'click', searchSettingEventHandler.caseMatchClick)
+  const wordMatchButton = elementGetter.wordMatchButton()
+  action.call(wordMatchButton, 'click', searchSettingEventHandler.wordMatchClick)
+  const regexMatchButton = elementGetter.regexMatchButton()
+  action.call(regexMatchButton, 'click', searchSettingEventHandler.regexMatchClick)
 }
 
 const Direction = {
@@ -225,4 +200,31 @@ function updateSelectedOption(preIndex, nextIndex) {
   }
   const nextSelectedOption = elementGetter.option(nextIndex)
   nextSelectedOption.setAttribute('class', 'option selected')
+}
+
+function filterOptions() {
+  if (state.content) {
+    state.setOptions(options.filter(option => MatchExecutor.match(state.content, option.value)))
+  }
+}
+
+function clearOptionListIfSearchContentIsEmpty() {
+  if (!state.content) {
+    state.setOptions()
+    elementRenderer.clearOptionsList()
+    return true
+  }
+}
+
+function clearOptionListIfNoOptionMatch() {
+  if (state.options.length === 0) {
+    state.setOptions()
+    elementRenderer.clearOptionsList()
+    return true
+  }
+}
+
+function updateOptionList() {
+  const optionDivs = state.options.map((option, index) => elementCreator.option(option, index, false))
+  elementRenderer.fillOptionList(optionDivs.join(""))
 }

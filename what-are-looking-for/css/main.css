@@ -5,7 +5,7 @@
   margin: 0;
   box-sizing: border-box;
   font-size: 16px;
-  transition: color, background-color, opacity 300ms;
+  transition: color 300ms, background-color 300ms, opacity 300ms;
 }
 
 body {
@@ -89,8 +89,8 @@ main > .search-form {
 }
 
 .clear-content span:hover {
-  background-color: #bcbcbc;
-  color: #ffffff;
+  background-color: #cccccc;
+  color: white;
   font-weight: 600;
 }
 
@@ -164,4 +164,46 @@ main > .option-list {
 
 .invisible {
   opacity: 0;
+}
+
+.search-form > .search-setting {
+  flex-basis: 160px;
+  margin: auto 10px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.search-form > .search-setting > * {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.search-form > .search-setting span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  color: #d4d4d4;
+  font-weight: 500;
+  user-select: none;
+
+  border-radius: 8px;
+}
+
+.search-form > .search-setting > .regex-match span {
+  font-weight: 600;
+}
+
+.search-form > .search-setting span:hover {
+  background-color: #cccccc;
+  color: #ffffff;
+}
+
+.search-form > .search-setting .active > span {
+  color: #45c3f0;
 }

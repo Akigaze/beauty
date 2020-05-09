@@ -4,7 +4,12 @@
   <meta charset="UTF-8">
   <title>What are you looking for</title>
   <link rel="stylesheet" type="text/css" href="css/main.css"/>
-  <script type="text/javascript" src="./index.js"></script>
+  <script type="text/javascript" src="js/api.js"></script>
+  <script type="text/javascript" src="js/core.js"></script>
+  <script type="text/javascript" src="js/store.js"></script>
+  <script type="text/javascript" src="js/ui.js"></script>
+  <script type="text/javascript" src="js/util.js"></script>
+  <script type="text/javascript" src="js/index.js"></script>
 </head>
 <body>
 <div class="container">
@@ -17,12 +22,16 @@
       </div>
       <div class="search-input">
         <label>
-          <input type="text" />
+          <input type="text"/>
         </label>
       </div>
       <div class="clear-content invisible">
         <span>&#10005;</span>
-<!--        <span>&#10006;</span>-->
+      </div>
+      <div class="search-setting">
+        <div class="case-match"><span>Aa</span></div>
+        <div class="word-match"><span>W</span></div>
+        <div class="regex-match"><span>.*</span></div>
       </div>
     </div>
     <div class="option-list">
