@@ -13,26 +13,53 @@ const options = [
 ]
 
 const state = {
-  searchContent: '',
-  matchedOptions: [],
-  selectedOptionIndex: -1
+  content: '',
+  options: [],
+  selectedIndex: -1
 }
+
+state.setContent = function (content) {
+  this.content = content || ""
+}.bind(state)
+state.setOptions = function (options) {
+  this.options = options || []
+}.bind(state)
+state.setSelectedIndex = function (index) {
+  this.selectedIndex = index || -1
+}.bind(state)
+
+state.rest = function () {
+  this.content = ''
+  this.options = []
+  this.selectedIndex = -1
+}.bind(state)
 
 const elementGetter = {
   input: () => document.querySelector("input"),
   searchIcon: () => document.querySelector(".search-icon"),
   optionList: () => document.querySelector(".option-list"),
   option: (index) => document.getElementById(`option-${index}`),
+  clearButton: () => document.querySelector(".clear-content"),
+}
+
+const elementRenderer = {
+  clearAll: () => {
+    elementGetter.optionList().innerHTML = ""
+    elementGetter.input().value = ""
+    elementGetter.clearButton().setAttribute("class", "clear-content invisible")
+  },
+  clearOptionsList: () => elementGetter.optionList().innerHTML = "",
+  fillOptionList: (html) => elementGetter.optionList().innerHTML = html
 }
 
 const optionEventHandler = function () {
   const optionClick = (index) => {
-    if (state.selectedOptionIndex === index) {
+    if (state.selectedIndex === index) {
       return
     }
 
-    const preIndex = state.selectedOptionIndex
-    const nextIndex = (state.selectedOptionIndex = index)
+    const preIndex = state.selectedIndex
+    const nextIndex = (state.selectedIndex = index)
     updateSelectedOption(preIndex, nextIndex)
 
     elementGetter.input().focus()
@@ -48,46 +75,53 @@ const inputEventHandler = function () {
   }
 
   const createOption = ({id, value}, index, selected) => {
-    const searchContent = state.searchContent.replace(" ", "&nbsp;")
-    const filling = getRestLetter(value, state.searchContent).replace(" ", "&nbsp;")
-    return `<div id="option-${index}" class="option ${selected ? 'selected' : ''}" onclick="optionEventHandler.click(${index})"><div class="option-id">${id}</div><div class="option-value"><span class="search-content">${searchContent}</span>${filling}</div></div>`
+    const content = state.content.replace(" ", "&nbsp;")
+    const filling = getRestLetter(value, state.content).replace(" ", "&nbsp;")
+    return `<div id="option-${index}" class="option ${selected ? 'selected' : ''}" onclick="optionEventHandler.click(${index})"><div class="option-id">${id}</div><div class="option-value"><span class="search-content">${content}</span>${filling}</div></div>`
   }
 
   const clearOptionListIfSearchContentIsEmpty = () => {
-    if (!state.searchContent) {
-      state.matchedOptions = []
-      elementGetter.optionList().innerHTML = ""
+    if (!state.content) {
+      state.setOptions()
+      elementRenderer.clearOptionsList()
       return true
     }
   }
 
   const clearOptionListIfNoOptionMatch = () => {
-    if (state.matchedOptions.length === 0) {
-      state.matchedOptions = []
-      elementGetter.optionList().innerHTML = ""
+    if (state.options.length === 0) {
+      state.setOptions()
+      elementRenderer.clearOptionsList()
       return true
     }
   }
 
   const updateOptionList = () => {
-    const optionDivs = state.matchedOptions.map((option, index) => createOption(option, index, false))
-    const optionList = elementGetter.optionList()
-    optionList.innerHTML = optionDivs.join("")
+    const optionDivs = state.options.map((option, index) => createOption(option, index, false))
+    elementRenderer.fillOptionList(optionDivs.join(""))
+  }
+
+  const handleClearButton = () => {
+    elementGetter.clearButton().setAttribute("class", `clear-content ${state.content ? "" : "invisible"}`)
   }
 
   const KEY_CODE_MAP = {
-    38: {name: 'UP', handle: () => updateSelectedOptionByDirection(Direction.up)},
-    40: {name: 'DOWN', handle: () => updateSelectedOptionByDirection(Direction.down)}
+    38: {name: 'Up', handle: () => updateSelectedOptionByDirection(Direction.up)},
+    40: {name: 'Down', handle: () => updateSelectedOptionByDirection(Direction.down)},
+    27: {name: 'Escape', handle: () => cancelSelectedOption()}
   }
 
-  const searchContentChange = (event) => {
-    state.searchContent = event.target.value.trimStart();
-    state.selectedOptionIndex = -1
+  const contentChange = (event) => {
+    state.setContent(event.target.value.trimStart());
+    state.setSelectedIndex()
+
+    handleClearButton()
+
     if (clearOptionListIfSearchContentIsEmpty()) {
       return
     }
 
-    state.matchedOptions = options.filter(option => option.value.startsWith(state.searchContent))
+    state.options = options.filter(option => option.value.startsWith(state.content))
 
     if (clearOptionListIfNoOptionMatch()) {
       return;
@@ -110,13 +144,13 @@ const inputEventHandler = function () {
   }
 
   const inputBlur = (event) => {
-    if (!state.searchContent) {
+    if (!state.content) {
       elementGetter.searchIcon().setAttribute("class", "search-icon")
     }
   }
 
   return {
-    contentChange: searchContentChange,
+    contentChange: contentChange,
     keydown: inputKeydown,
     focus: inputFocus,
     blur: inputBlur
@@ -129,6 +163,16 @@ const searchIconEventHandler = function () {
   }
 
   return {click: searchIconClick}
+}()
+
+const clearButtonEventHandler = function () {
+  const clearContent = (event) => {
+    state.rest()
+    elementRenderer.clearAll()
+    elementGetter.input().focus()
+  }
+
+  return {click: clearContent}
 }()
 
 window.onload = () => {
@@ -147,20 +191,31 @@ function eventManage(action) {
   action.call(input, 'blur', inputEventHandler.blur)
   const searchIcon = elementGetter.searchIcon()
   action.call(searchIcon, 'click', searchIconEventHandler.click)
+  const clearButton = elementGetter.clearButton()
+  action.call(clearButton, 'click', clearButtonEventHandler.click)
 }
 
 const Direction = {
-  up: {value: -1, condition: (index, maxIndex, minIndex = 0) => index > minIndex},
-  down: {value: 1, condition: (index, maxIndex, minIndex = 0) => index < maxIndex}
+  up: {value: -1, condition: (index, max, min = 0) => index > min},
+  down: {value: 1, condition: (index, max, min = 0) => index < max}
 }
 
 function updateSelectedOptionByDirection(direction) {
-  if (!direction.condition(state.selectedOptionIndex, state.matchedOptions.length - 1, 0)) {
+  if (!direction.condition(state.selectedIndex, state.options.length - 1, 0)) {
     return
   }
-  const preIndex = state.selectedOptionIndex
-  const nextIndex = state.selectedOptionIndex += direction.value
+  const preIndex = state.selectedIndex
+  const nextIndex = state.selectedIndex += direction.value
   updateSelectedOption(preIndex, nextIndex)
+}
+
+function cancelSelectedOption() {
+  if (state.selectedIndex === -1) {
+    return
+  }
+  const preSelectedOption = elementGetter.option(state.selectedIndex)
+  preSelectedOption.setAttribute('class', 'option')
+  state.setSelectedIndex()
 }
 
 function updateSelectedOption(preIndex, nextIndex) {

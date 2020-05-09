@@ -68,6 +68,32 @@ main > .search-form {
   align-items: center;
 }
 
+.search-form > .clear-content {
+  flex-basis: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #d4d4d4;
+  cursor: default;
+}
+
+.clear-content span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 26px;
+  font-size: 18px;
+  user-select: none;
+}
+
+.clear-content span:hover {
+  background-color: #bcbcbc;
+  color: #ffffff;
+  font-weight: 600;
+}
+
 .search-input * {
   flex-grow: 1;
 }
@@ -134,4 +160,8 @@ main > .option-list {
 
 .search-form > .search-icon.active {
   opacity: 1;
+}
+
+.invisible {
+  opacity: 0;
 }
