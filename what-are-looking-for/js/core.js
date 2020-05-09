@@ -53,9 +53,7 @@ const regexMatcher = {
 const MatchExecutor = {
   matcher: simpleMatcher,
   match: function (condition, target) {
-    let matched = this.matcher.match(condition, target);
-    console.log(`${condition} -> ${target} : ${matched}`)
-    return matched
+    return this.matcher.match(condition, target)
   },
   find: function (condition, target) {
     return this.matcher.find(condition, target)
