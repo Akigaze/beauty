@@ -2,15 +2,15 @@ console.log("what are you looking for?")
 
 const optionEventHandler = function () {
   const optionClick = (index) => {
+    elementGetter.input().focus()
     if (state.selectedIndex === index) {
       return
-    }
 
+    }
     const preIndex = state.selectedIndex
     const nextIndex = (state.selectedIndex = index)
-    updateSelectedOption(preIndex, nextIndex)
 
-    elementGetter.input().focus()
+    updateSelectedOption(preIndex, nextIndex)
   }
 
   return {click: optionClick}
@@ -101,7 +101,7 @@ const searchSettingEventHandler = function () {
     state.setMatcher(name, on)
     if (on) {
       MatchFactory.get(name).enable()
-    }else {
+    } else {
       MatchFactory.get(name).disable()
     }
   }
@@ -116,7 +116,7 @@ const searchSettingEventHandler = function () {
 
   const clickAroundAop = (name, fn) => (event) => {
     const setting = state.setting[name];
-    if (setting.disable){
+    if (setting.disable) {
       return
     }
     const nextOn = !setting.on;
@@ -129,7 +129,7 @@ const searchSettingEventHandler = function () {
   const caseMatchClick = clickAroundAop(MatcherName.case, (nextOn) => {
     if (nextOn) {
       elementRenderer.replace(elementGetter.caseMatchButton(), 'active', 'normal')
-    }else {
+    } else {
       elementRenderer.replace(elementGetter.caseMatchButton(), 'normal', 'active')
     }
   })
@@ -137,7 +137,7 @@ const searchSettingEventHandler = function () {
   const wordMatchClick = clickAroundAop(MatcherName.word, (nextOn) => {
     if (nextOn) {
       elementRenderer.replace(elementGetter.wordMatchButton(), 'active', 'normal')
-    }else {
+    } else {
       elementRenderer.replace(elementGetter.wordMatchButton(), 'normal', 'active')
     }
   })
@@ -200,6 +200,7 @@ function updateSelectedOptionByDirection(direction) {
   const preIndex = state.selectedIndex
   const nextIndex = state.selectedIndex += direction.value
   updateSelectedOption(preIndex, nextIndex)
+  elementRenderer.scrollOptionList(direction, nextIndex)
 }
 
 function cancelSelectedOption() {

@@ -5,7 +5,7 @@
   margin: 0;
   box-sizing: border-box;
   font-size: 16px;
-  transition: color 300ms, background-color 300ms, opacity 300ms;
+  transition: color 200ms, background-color 200ms, opacity 200ms;
 }
 
 body {
@@ -110,9 +110,14 @@ main > .search-form {
   background-color: transparent;
 }
 
+.search-form > .search-input input::placeholder {
+  color: #d4d4d4;
+}
+
 main > .option-list {
   max-height: 400px;
   overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 .option-list * {
