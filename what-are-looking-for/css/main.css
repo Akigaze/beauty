@@ -28,7 +28,7 @@ body {
 .container > main {
   flex-basis: 400px;
   flex-grow: 1;
-  margin: auto 5vw;
+  margin: auto 20vw;
 }
 
 main > .search-hit {
@@ -227,4 +227,16 @@ main > .option-list {
   border-left: #d4d4d4 1px solid;
   margin: auto;
   height: 28px;
+}
+
+.option-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.option-list::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.option-list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
 }
