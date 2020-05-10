@@ -91,7 +91,6 @@ main > .search-form {
 .clear-content span:hover {
   background-color: #cccccc;
   color: white;
-  font-weight: 600;
 }
 
 .search-input * {
@@ -191,7 +190,6 @@ main > .option-list {
   width: 30px;
   height: 30px;
   font-size: 20px;
-  color: #d4d4d4;
   font-weight: 500;
   user-select: none;
   border-radius: 8px;
@@ -201,13 +199,28 @@ main > .option-list {
   font-weight: 600;
 }
 
-.search-form > .search-setting span:hover {
+.search-form > .search-setting .normal > span {
+  color: #d4d4d4;
+}
+
+.search-form > .search-setting .normal > span:hover {
   background-color: #cccccc;
   color: #ffffff;
 }
 
 .search-form > .search-setting .active > span {
   color: #45c3f0;
+}
+
+.search-form > .search-setting .active > span:hover {
+  background-color: #cccccc;
+}
+
+.search-form > .search-setting .disable > span {
+  color: #eeeeee;
+}
+
+.search-form > .search-setting .disable > span:hover {
 }
 
 .cutoff-line {

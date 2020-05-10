@@ -93,14 +93,17 @@ const clearButtonEventHandler = function () {
 }()
 
 const searchSettingEventHandler = function () {
-  const renderOptions = {
-    true: elementRenderer.active,
-    false: elementRenderer.inactive
-  }
 
-  const setMatcher = (name, {added}) => {
-    state[name](added)
-    MatchExecutor.matcher = MatchFactory.get(added ? name : null)
+  const setMatcher = (name, on) => {
+    if (name === MatcherName.regex) {
+      state.setMatcher(MatcherName.word, false, on)
+    }
+    state.setMatcher(name, on)
+    if (on) {
+      MatchFactory.get(name).enable()
+    }else {
+      MatchFactory.get(name).disable()
+    }
   }
 
   const reFilterOptions = () => {
@@ -109,32 +112,47 @@ const searchSettingEventHandler = function () {
       return;
     }
     updateOptionList()
+  }
+
+  const clickAroundAop = (name, fn) => (event) => {
+    const setting = state.setting[name];
+    if (setting.disable){
+      return
+    }
+    const nextOn = !setting.on;
+    setMatcher(name, nextOn)
+    fn(nextOn)
+    reFilterOptions()
     elementGetter.input().focus()
   }
 
-  const caseMatchClick = (event) => {
-    const matchName = MatchName.case;
-    const added = !state.setting[matchName];
-    setMatcher(matchName, {added: added})
-    reFilterOptions()
-    renderOptions[added](elementGetter.caseMatchButton(), 'active')
-  }
+  const caseMatchClick = clickAroundAop(MatcherName.case, (nextOn) => {
+    if (nextOn) {
+      elementRenderer.replace(elementGetter.caseMatchButton(), 'active', 'normal')
+    }else {
+      elementRenderer.replace(elementGetter.caseMatchButton(), 'normal', 'active')
+    }
+  })
 
-  const wordMatchClick = (event) => {
-    const matchName = MatchName.word;
-    const added = !state.setting[matchName];
-    setMatcher(matchName, {added: added})
-    reFilterOptions()
-    renderOptions[added](elementGetter.wordMatchButton(), 'active')
-  }
+  const wordMatchClick = clickAroundAop(MatcherName.word, (nextOn) => {
+    if (nextOn) {
+      elementRenderer.replace(elementGetter.wordMatchButton(), 'active', 'normal')
+    }else {
+      elementRenderer.replace(elementGetter.wordMatchButton(), 'normal', 'active')
+    }
+  })
 
-  const regexMatchClick = (event) => {
-    const matchName = MatchName.regex;
-    const added = !state.setting[matchName];
-    setMatcher(matchName, {added: added})
-    renderOptions[added](elementGetter.regexMatchButton(), 'active')
-    reFilterOptions()
-  }
+  const regexMatchClick = clickAroundAop(MatcherName.regex, (nextOn) => {
+    const operation = nextOn ? elementRenderer.active : elementRenderer.inactive
+    operation(elementGetter.regexMatchButton(), 'active')
+    if (nextOn) {
+      elementRenderer.replace(elementGetter.regexMatchButton(), 'active', 'normal')
+      elementRenderer.replace(elementGetter.wordMatchButton(), 'disable', 'normal', 'active')
+    } else {
+      elementRenderer.replace(elementGetter.regexMatchButton(), 'normal', 'active')
+      elementRenderer.replace(elementGetter.wordMatchButton(), 'normal', 'disable')
+    }
+  })
 
   return {
     caseMatchClick,
@@ -205,9 +223,16 @@ function updateSelectedOption(preIndex, nextIndex) {
 function filterOptions() {
   if (state.content) {
     try {
-      state.setOptions(options.filter(option => MatchExecutor.match(state.content, option.value)))
+      const matchedOptions = []
+      for (let option of options) {
+        const result = MatchExecutor.match(state.content, option.value)
+        if (result) {
+          matchedOptions.push({...option, parts: result})
+        }
+      }
+      state.setOptions(matchedOptions)
     } catch (e) {
-      // console.log(state.content, e)
+      console.error(state.content, e)
     }
   }
 }
@@ -233,7 +258,7 @@ function updateOptionList() {
     const optionDivs = state.options.map((option, index) => elementCreator.option(option, index, false))
     elementRenderer.fillOptionList(optionDivs.join(""))
   } catch (e) {
-    // console.log(state.content, e)
+    console.error(state.content, e)
   }
 
 }

@@ -5,9 +5,9 @@ const state = {
   options: [],
   selectedIndex: -1,
   setting: {
-    [MatchName.case]: false,
-    [MatchName.word]: false,
-    [MatchName.regex]: false
+    [MatcherName.case]: {on: false, disable: false},
+    [MatcherName.word]: {on: false, disable: false},
+    [MatcherName.regex]: {on: false, disable: false}
   }
 }
 
@@ -21,9 +21,13 @@ state.setSelectedIndex = function (index) {
   this.selectedIndex = index || -1
 }.bind(state)
 
-state[MatchName.case] = function(on=false){state.setting[MatchName.case] = on}.bind(state)
-state[MatchName.word] = function(on=false){state.setting[MatchName.word] = on}.bind(state)
-state[MatchName.regex] = function(on=false){state.setting[MatchName.regex] = on}.bind(state)
+state.setMatcher = function (name, on = false, disable = false) {
+  const matcher = state.setting[name]
+  if (matcher) {
+    matcher.on = on
+    matcher.disable = disable
+  }
+}.bind(state)
 
 state.rest = function () {
   this.content = ''

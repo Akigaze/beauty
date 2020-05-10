@@ -23,7 +23,17 @@ function removeClass(element, removed) {
   return className
 }
 
-const BLANK_REGEX = new RegExp(/ /,'g')
-function replaceBlank(value) {
-  return value.replace(BLANK_REGEX, "&nbsp;")
+function replaceClass(element, added, removeds) {
+  const className = element.getAttribute("class");
+  if (className) {
+    const classes = className.split(" ")
+    const remained = classes.filter(c => !removeds.includes(c))
+    return [...remained, added].join(" ")
+  }
+  return className
 }
+
+const replaceBlank = function replaceBlank() {
+  const BLANK_REGEX = new RegExp(/ /, 'g')
+  return (value) => value.replace(BLANK_REGEX, "&nbsp;")
+}()

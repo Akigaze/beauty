@@ -4,7 +4,6 @@ const options = function getOptions() {
     {id: 1, value: "Comoros"},
     {id: 2, value: "China"},
     {id: 3, value: "Netherlands Antilles"},
-    {id: 4, value: "Congo, Republic of"},
     {id: 5, value: "Honduras"},
     {id: 6, value: "Israel"},
     {id: 7, value: "Cyprus"},
