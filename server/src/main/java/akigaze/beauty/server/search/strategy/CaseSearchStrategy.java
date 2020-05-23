@@ -15,7 +15,7 @@ public class CaseSearchStrategy extends AbstractSearchStrategy<CaseStrategyWrapp
   }
 
   @Override
-  protected <T> Function<String, List<T>> getExecutor(SearchableRepository<T> repository, CaseStrategyWrapper wrapper) {
+  protected <T, ID> Function<String, List<T>> getExecutor(SearchableRepository<T, ID> repository, CaseStrategyWrapper wrapper) {
     return repository::findAllStartWithKeywordIgnoreCase;
   }
 }

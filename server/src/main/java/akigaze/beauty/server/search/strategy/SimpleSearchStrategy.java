@@ -15,7 +15,7 @@ public class SimpleSearchStrategy extends AbstractSearchStrategy<SimpleStrategyW
   }
 
   @Override
-  protected <T> Function<String, List<T>> getExecutor(SearchableRepository<T> repository, SimpleStrategyWrapper wrapper) {
+  protected <T, ID> Function<String, List<T>> getExecutor(SearchableRepository<T, ID> repository, SimpleStrategyWrapper wrapper) {
     return repository::findAllStartWithKeyword;
   }
 }

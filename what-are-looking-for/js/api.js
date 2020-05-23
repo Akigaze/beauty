@@ -23,7 +23,7 @@ const server = ({url, param, headers, method , body}) => {
 
 const api = function () {
   const host = "http://localhost:8090"
-  const baseURL = "api/events"
+  const baseURL = "api/demo/notes"
 
   return {
     fetchOptions(keyword, strategies) {

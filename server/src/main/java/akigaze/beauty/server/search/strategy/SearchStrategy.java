@@ -12,5 +12,5 @@ public interface SearchStrategy {
   StrategyType getType();
 
   @NonNull
-  <T> List<T> search(@NonNull SearchableRepository<T> repository, @NonNull StrategyWrapper wrapper, @NonNull String keyword);
+  <T, ID> List<T> search(@NonNull SearchableRepository<T, ID> repository, @NonNull StrategyWrapper wrapper, @NonNull String keyword);
 }

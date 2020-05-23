@@ -18,7 +18,7 @@ public class SearchService {
     this.strategies = Arrays.asList(new SimpleSearchStrategy(), new CaseSearchStrategy(), new WordSearchStrategy(), new RegexSearchStrategy());
   }
 
-  public <T> List<T> search(SearchableRepository<T> repository, StrategyWrapper wrapper, String keyword) {
+  public <T, ID> List<T> search(SearchableRepository<T, ID> repository, StrategyWrapper wrapper, String keyword) {
     SearchStrategy strategy = this.getStrategy(wrapper);
     return strategy.search(repository, wrapper, keyword);
   }

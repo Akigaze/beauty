@@ -15,7 +15,7 @@ public class RegexSearchStrategy extends AbstractSearchStrategy<RegexStrategyWra
   }
 
   @Override
-  protected <T> Function<String, List<T>> getExecutor(SearchableRepository<T> repository, RegexStrategyWrapper wrapper) {
+  protected <T, ID> Function<String, List<T>> getExecutor(SearchableRepository<T, ID> repository, RegexStrategyWrapper wrapper) {
     return wrapper.ignoreCase() ? repository::findAllMatchRegexIgnoreCase : repository::findAllMatchRegex;
   }
 }

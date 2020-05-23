@@ -16,7 +16,7 @@ public class WordSearchStrategy extends AbstractSearchStrategy<WordStrategyWrapp
   }
 
   @Override
-  protected <T> Function<String, List<T>> getExecutor(SearchableRepository<T> repository, WordStrategyWrapper wrapper) {
+  protected <T, ID> Function<String, List<T>> getExecutor(SearchableRepository<T, ID> repository, WordStrategyWrapper wrapper) {
     return wrapper.ignoreCase() ? repository::findAllMatchWordIgnoreCase : repository::findAllMatchWord;
   }
 }

@@ -6,7 +6,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 import java.util.List;
 
 @NoRepositoryBean
-public interface SearchableRepository<T> extends JpaRepository<T, Integer> {
+public interface SearchableRepository<T, ID> extends JpaRepository<T, ID> {
   List<T> findAllStartWithKeyword(String keyword);
 
   List<T> findAllStartWithKeywordIgnoreCase(String keyword);

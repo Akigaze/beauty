@@ -11,7 +11,7 @@ import java.util.function.Function;
 public abstract class AbstractSearchStrategy<S extends StrategyWrapper> implements SearchStrategy {
 
   @SuppressWarnings("unchecked")
-  public @NonNull <T> List<T> search(@NonNull SearchableRepository<T> repository, @NonNull StrategyWrapper wrapper, @NonNull String keyword) {
+  public @NonNull <T, ID> List<T> search(@NonNull SearchableRepository<T, ID> repository, @NonNull StrategyWrapper wrapper, @NonNull String keyword) {
     Assert.notNull(repository, "repository should not be null");
     Assert.notNull(wrapper, "strategy wrapper should not be null");
     Assert.hasText(keyword, "keyword should not be null, empty or blank");
@@ -21,6 +21,6 @@ public abstract class AbstractSearchStrategy<S extends StrategyWrapper> implemen
   }
 
   @NonNull
-  protected abstract <T> Function<String, List<T>> getExecutor(@NonNull SearchableRepository<T> repository, @NonNull S wrapper);
+  protected abstract <T, ID> Function<String, List<T>> getExecutor(@NonNull SearchableRepository<T, ID> repository, @NonNull S wrapper);
 
 }

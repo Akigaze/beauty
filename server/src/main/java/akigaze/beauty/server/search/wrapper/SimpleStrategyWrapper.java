@@ -13,6 +13,6 @@ public class SimpleStrategyWrapper implements StrategyWrapper {
   @Override
   public @NonNull String wrap(@NonNull String keyword) {
     Assert.hasText(keyword, "keyword should not be null, empty or blank");
-    return keyword + "%";
+    return "%" + keyword + "%";
   }
 }

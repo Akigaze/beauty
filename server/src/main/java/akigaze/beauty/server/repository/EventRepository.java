@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface EventRepository extends SearchableRepository<Event> {
+public interface EventRepository extends SearchableRepository<Event, Integer> {
 
   @Query(value = "select * from events where title like binary :keyword", nativeQuery = true)
   List<Event> findAllByTitleStartsWith(@Param("keyword") String keyword);
