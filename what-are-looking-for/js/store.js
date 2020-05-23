@@ -34,3 +34,11 @@ state.rest = function () {
   this.options = []
   this.selectedIndex = -1
 }.bind(state)
+
+state.getStrategies = function () {
+  const strategies = Object.entries(state.setting).filter(([n, s]) => s.on).map(([n, s]) => n)
+  if (strategies.length === 0) {
+    return [MatcherName.simple]
+  }
+  return strategies
+}.bind(state)

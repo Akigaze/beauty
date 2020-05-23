@@ -1,7 +1,5 @@
 package akigaze.beauty.server.model.base;
 
-import akigaze.beauty.server.util.JsonSerializers;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
@@ -13,7 +11,6 @@ public class BaseResponse<T> {
 
   private String message;
 
-  @JsonSerialize(using = JsonSerializers.HttpStatusJsonSerializer.class)
   private HttpStatus status;
 
   private String devMessage;
@@ -24,7 +21,7 @@ public class BaseResponse<T> {
 
   @SuppressWarnings("unchecked")
   public <X> BaseResponse<T> setData(X data) {
-    this.data = (T)data;
+    this.data = (T) data;
     return this;
   }
 }

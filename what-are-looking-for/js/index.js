@@ -38,13 +38,17 @@ const inputEventHandler = function () {
       return
     }
 
-    filterOptions()
-
-    if (clearOptionListIfNoOptionMatch()) {
-      return;
+    if (isKeywordValid(state.content, state.getStrategies())) {
+      api.fetchOptions(state.content, state.getStrategies())
+        .then(options => {
+          filterOptions(options)
+          if (clearOptionListIfNoOptionMatch()) {
+            return;
+          }
+          updateOptionList()
+        })
+        .catch(error => console.error(error))
     }
-
-    updateOptionList()
   }
 
   const inputKeydown = (event) => {
@@ -107,11 +111,17 @@ const searchSettingEventHandler = function () {
   }
 
   const reFilterOptions = () => {
-    filterOptions()
-    if (clearOptionListIfNoOptionMatch()) {
-      return;
+    if (isKeywordValid(state.content, state.getStrategies())) {
+      api.fetchOptions(state.content, state.getStrategies())
+        .then(options => {
+          filterOptions(options)
+          if (clearOptionListIfNoOptionMatch()) {
+            return;
+          }
+          updateOptionList()
+        })
+        .catch(error => console.error(error))
     }
-    updateOptionList()
   }
 
   const clickAroundAop = (name, fn) => (event) => {
@@ -221,7 +231,7 @@ function updateSelectedOption(preIndex, nextIndex) {
   nextSelectedOption.setAttribute('class', 'option selected')
 }
 
-function filterOptions() {
+function filterOptions(options) {
   if (state.content) {
     try {
       const matchedOptions = []
@@ -262,4 +272,18 @@ function updateOptionList() {
     console.error(state.content, e)
   }
 
+}
+
+function isKeywordValid(keyword, strategies) {
+  if (!keyword) {
+    return false
+  }
+  if (strategies.includes(MatcherName.regex) || strategies.includes(MatcherName.word)) {
+    try{
+      new RegExp(keyword)
+    }catch (e) {
+      return false
+    }
+  }
+  return true
 }

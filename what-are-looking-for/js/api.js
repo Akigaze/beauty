@@ -1,3 +1,45 @@
+const DATA_SOURCE = {
+  mock: "mock",
+  server: "server"
+}
+
+const config = {
+  source: DATA_SOURCE.server
+}
+
+const server = ({url, param, headers, method , body}) => {
+  return fetch(
+    appendParams(url, param),
+    {method: method||"GET", headers: {"Content-Type": "application/json", ...headers}, body: JSON.stringify(body)}
+  ).then(response => {
+    if (response.ok) {
+      return response.json()
+    }
+    const error = new Error(response.statusText)
+    error.response = response.json()
+    throw error
+  })
+}
+
+const api = function () {
+  const host = "http://localhost:8090"
+  const baseURL = "api/events"
+
+  return {
+    fetchOptions(keyword, strategies) {
+      if (config.source === DATA_SOURCE.server) {
+        return server({
+          url: makeURL(host, baseURL, "search"),
+          method: "POST",
+          body: {keyword, strategies}
+        })
+      } else if (config.source === DATA_SOURCE.mock) {
+        return Promise.resolve(new Response(JSON.stringify(options)))
+      }
+    }
+  }
+}()
+
 const options = function getOptions() {
   return [
     {id: 0, value: "Malawi"},

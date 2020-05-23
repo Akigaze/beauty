@@ -37,3 +37,21 @@ const replaceBlank = function replaceBlank() {
   const BLANK_REGEX = new RegExp(/ /, 'g')
   return (value) => value.replace(BLANK_REGEX, "&nbsp;")
 }()
+
+const trimIfExist = (str, char) => {
+  return str
+}
+
+const appendParams = (url, param={}) => {
+  const _param = Object.entries(param).map(([k, v]) => `${k}=${v}`).join("&")
+  if (_param) {
+    return url
+  }
+  return `${url}?${_param}`
+}
+
+const makeURL = (host, baseURL, ...paths) => {
+  host = trimIfExist(host, "/")
+  baseURL = trimIfExist(baseURL, "/")
+  return `${host}/${baseURL}/${paths.map(path => trimIfExist(path, "/")).join("/")}`
+}

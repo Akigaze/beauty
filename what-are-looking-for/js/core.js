@@ -1,10 +1,10 @@
 console.log("i am core");
 
 const MatcherName = {
-  simple: 'simpleMatch',
-  case: 'caseMatch',
-  word: 'wordMatch',
-  regex: 'regexMatch',
+  simple: 'simple',
+  case: 'ignoreCase',
+  word: 'word',
+  regex: 'regex',
 }
 
 class Matcher {

@@ -3,6 +3,7 @@ package akigaze.beauty.server.config;
 import akigaze.beauty.server.exception.BaseException;
 import akigaze.beauty.server.model.base.BaseResponse;
 import akigaze.beauty.server.util.ExceptionUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice("akigaze.beauty.server.controller")
 public class ControllerExceptionHandler {
 
@@ -32,10 +34,12 @@ public class ControllerExceptionHandler {
   }
 
   private BaseResponse<?> buildBaseResponse(@NonNull Exception e) {
-    Assert.notNull(e, "throwable should be not null");
-
+    Assert.notNull(e, "exception should be not null");
+    e.printStackTrace();
     BaseResponse<?> response = new BaseResponse<>();
-    response.setDevMessage(ExceptionUtil.getStackTrace(e));
+    if(log.isDebugEnabled()) {
+      response.setDevMessage(ExceptionUtil.getStackTrace(e));
+    }
     response.setMessage(e.getMessage());
     return response;
   }

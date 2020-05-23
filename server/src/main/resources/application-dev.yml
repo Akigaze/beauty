@@ -14,4 +14,4 @@ spring:
 
 logging:
   level:
-    com.akigaze.funny: DEBUG
+    akigaze.beauty.server: INFO
