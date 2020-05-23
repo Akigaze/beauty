@@ -19,9 +19,9 @@ const elementRenderer = {
   },
   clearOptionsList: () => elementGetter.optionList().innerHTML = "",
   fillOptionList: (html) => elementGetter.optionList().innerHTML = html,
-  active: (element, activeClassName) => element.setAttribute("class", concatClass(element, activeClassName)),
-  inactive: (element, activeClassName) => element.setAttribute("class", removeClass(element, activeClassName)),
-  replace: (element, nextClass, ...preClasses) => element.setAttribute("class", replaceClass(element, nextClass, preClasses)),
+  active: (element, activeClassName) => element.setAttribute("class", utils.concatClass(element, activeClassName)),
+  inactive: (element, activeClassName) => element.setAttribute("class", utils.removeClass(element, activeClassName)),
+  replace: (element, nextClass, ...preClasses) => element.setAttribute("class", utils.replaceClass(element, nextClass, preClasses)),
   scrollOptionList: (direction, index) => {
     const optionList = elementGetter.optionList()
     const option = elementGetter.option(index)
@@ -36,7 +36,7 @@ const elementRenderer = {
 
 const elementCreator = {
   option: ({id, value, parts}, index, selected) => {
-    const [front, middle, end] = parts.map(part => part && replaceBlank(part))
+    const [front, middle, end] = parts.map(part => part && utils.replaceBlank(part))
     const key = `option-${index}`
     const className = `option ${selected ? 'selected' : ''}`
     return `<div id="${key}" class="${className}" onclick="optionEventHandler.click(${index})"><div class="option-id">${id}</div><div class="option-value">${front}<span class="search-content">${middle}</span>${end}</div></div>`

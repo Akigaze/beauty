@@ -241,6 +241,7 @@ function filterOptions(options) {
           matchedOptions.push({...option, parts: result})
         }
       }
+      matchedOptions.sort((x, y) => x.id - y.id)
       state.setOptions(matchedOptions)
     } catch (e) {
       console.error(state.content, e)

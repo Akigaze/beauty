@@ -9,7 +9,7 @@ const config = {
 
 const server = ({url, param, headers, method , body}) => {
   return fetch(
-    appendParams(url, param),
+    utils.appendParams(url, param),
     {method: method||"GET", headers: {"Content-Type": "application/json", ...headers}, body: JSON.stringify(body)}
   ).then(response => {
     if (response.ok) {
@@ -29,7 +29,7 @@ const api = function () {
     fetchOptions(keyword, strategies) {
       if (config.source === DATA_SOURCE.server) {
         return server({
-          url: makeURL(host, baseURL, "search"),
+          url: utils.makeURL(host, baseURL, "search"),
           method: "POST",
           body: {keyword, strategies}
         })
