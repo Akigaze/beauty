@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/beauty?serverTimezone=UTC
+    username: beauty
+    password: beauty
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  flyway:
+    enabled: false
+    locations: classpath:db/migration
+
+logging:
+  level:
+    com.akigaze.funny: DEBUG
