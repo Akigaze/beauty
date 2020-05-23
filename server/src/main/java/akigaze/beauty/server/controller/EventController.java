@@ -1,8 +1,8 @@
 package akigaze.beauty.server.controller;
 
-import akigaze.beauty.server.constant.enums.StrategyType;
+import akigaze.beauty.server.search.enums.StrategyType;
 import akigaze.beauty.server.model.dto.EventDTO;
-import akigaze.beauty.server.model.param.SearchParam;
+import akigaze.beauty.server.search.param.SearchParam;
 import akigaze.beauty.server.service.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

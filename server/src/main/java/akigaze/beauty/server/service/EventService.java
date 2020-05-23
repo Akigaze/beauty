@@ -1,10 +1,10 @@
 package akigaze.beauty.server.service;
 
-import akigaze.beauty.server.constant.enums.StrategyType;
 import akigaze.beauty.server.model.dto.EventDTO;
 import akigaze.beauty.server.repository.EventRepository;
-import akigaze.beauty.server.service.search.SearchService;
-import akigaze.beauty.server.service.search.StrategyWrapperFactory;
+import akigaze.beauty.server.search.SearchService;
+import akigaze.beauty.server.search.StrategyWrapperFactory;
+import akigaze.beauty.server.search.enums.StrategyType;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

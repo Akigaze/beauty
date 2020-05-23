@@ -1,6 +1,6 @@
 package akigaze.beauty.server.model.dto;
 
-import akigaze.beauty.server.model.base.OutputConverter;
+import akigaze.beauty.server.common.model.base.OutputConverter;
 import akigaze.beauty.server.model.entity.Event;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

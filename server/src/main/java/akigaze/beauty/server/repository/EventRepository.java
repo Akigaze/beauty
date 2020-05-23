@@ -1,6 +1,7 @@
 package akigaze.beauty.server.repository;
 
 import akigaze.beauty.server.model.entity.Event;
+import akigaze.beauty.server.search.repository.SearchableRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;

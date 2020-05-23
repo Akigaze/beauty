@@ -1,8 +1,8 @@
 package akigaze.beauty.server.config;
 
-import akigaze.beauty.server.exception.BaseException;
+import akigaze.beauty.server.common.exception.BaseException;
 import akigaze.beauty.server.model.base.BaseResponse;
-import akigaze.beauty.server.util.ExceptionUtil;
+import akigaze.beauty.server.common.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
