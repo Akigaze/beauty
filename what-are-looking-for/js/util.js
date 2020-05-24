@@ -46,7 +46,7 @@ const utils = function () {
 
   const appendParams = (url, param={}) => {
     const _param = Object.entries(param).map(([k, v]) => `${k}=${v}`).join("&")
-    if (_param) {
+    if (!_param) {
       return url
     }
     return `${url}?${_param}`

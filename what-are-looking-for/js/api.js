@@ -4,7 +4,7 @@ const DATA_SOURCE = {
 }
 
 const config = {
-  source: DATA_SOURCE.server
+  source: DATA_SOURCE.mock
 }
 
 const server = ({url, param, headers, method , body}) => {
@@ -21,6 +21,10 @@ const server = ({url, param, headers, method , body}) => {
   })
 }
 
+const mockServer = (data) => {
+  return Promise.resolve(new Response(JSON.stringify(data))).then(response => response.json())
+}
+
 const api = function () {
   const host = "http://localhost:8090"
   const baseURL = "api/demo/notes"
@@ -34,7 +38,7 @@ const api = function () {
           body: {keyword, strategies}
         })
       } else if (config.source === DATA_SOURCE.mock) {
-        return Promise.resolve(new Response(JSON.stringify(options)))
+        return mockServer(options)
       }
     }
   }
