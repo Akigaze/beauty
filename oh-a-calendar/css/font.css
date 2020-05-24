@@ -1,0 +1,31 @@
+@font-face {
+  font-family: 'Colfax';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../font/Colfax-Regular.otf") format('otf');
+}
+
+@font-face {
+  font-family: 'Colfax';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url("../font/Colfax-Medium.otf") format('otf');
+}
+
+@font-face {
+  font-family: 'Colfax';
+  font-style: normal;
+  font-display: swap;
+  font-weight: bold;
+  src: url("../font/Colfax-Bold.otf") format('otf');
+}
+
+@font-face {
+  font-family: 'fontello';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../font/fontello.woff") format('woff');
+}

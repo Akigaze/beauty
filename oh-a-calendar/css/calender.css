@@ -1,0 +1,168 @@
+i[class^="icon-"], i[class*=" icon-"] {
+  font-family: 'fontello', sans-serif;!important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.cal-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.cal-header {
+  flex-basis: 64px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.cal-title {
+  flex-grow: 10;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.cal-date,
+.cal-day {
+  display: flex;
+  align-items: center;
+}
+
+.cal-date .cal-text,
+.cal-day .cal-text {
+  font-size: 24px;
+}
+
+.cal-date {
+  flex-basis: 120px;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.cal-date .cal-text {
+  font-weight: bold;
+  color: #343956;
+}
+
+.cal-day {
+  flex-basis: 100px;
+  flex-grow: 3;
+}
+
+.cal-day .cal-text {
+  color: #878a9b;
+}
+
+.cal-switcher {
+  flex-basis: 60px;
+  flex-grow: 2;
+  display: flex;
+  flex-direction: row;
+}
+
+.cal-prev,
+.cal-next {
+  flex-grow: 1;
+  flex-basis: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cal-prev {
+}
+
+.cal-next {
+}
+
+.cal-body {
+  flex-basis: 100px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cal-days {
+  flex-basis: 48px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cal-day-entry {
+  flex-basis: 40px;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cal-day-entry > .cal-text {
+  color: #babfc2;
+  font-size: 18px;
+}
+
+.cal-dates {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cal-date-week {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-around;
+}
+
+.cal-date-entry {
+  flex-grow: 1;
+  flex-basis: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.cal-date-entry > .cal-text {
+  color: #8a8e94;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.cal-text {
+
+}
+
+.cal-switcher .icon-arrow-left:before,
+.cal-switcher .icon-arrow-right:before {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.icon-arrow-left,
+.icon-arrow-right {
+  cursor: pointer;
+  color: #878a9b;
+}
+
+.icon-arrow-left:hover,
+.icon-arrow-right:hover {
+  color: #7a7a7b;
+}
+
+.icon-arrow-left:before {
+  content: '\e806';
+}
+
+.icon-arrow-right:before {
+  content: '\e80f';
+}
