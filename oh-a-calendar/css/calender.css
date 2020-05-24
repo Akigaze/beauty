@@ -23,7 +23,7 @@ i[class^="icon-"], i[class*=" icon-"] {
 }
 
 .cal-title {
-  flex-grow: 10;
+  flex-grow: 8;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -41,7 +41,7 @@ i[class^="icon-"], i[class*=" icon-"] {
 }
 
 .cal-date {
-  flex-basis: 120px;
+  flex-basis: 150px;
   flex-grow: 1;
   justify-content: center;
 }
@@ -53,7 +53,7 @@ i[class^="icon-"], i[class*=" icon-"] {
 
 .cal-day {
   flex-basis: 100px;
-  flex-grow: 3;
+  flex-grow: 8;
 }
 
 .cal-day .cal-text {
@@ -65,11 +65,11 @@ i[class^="icon-"], i[class*=" icon-"] {
   flex-grow: 2;
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
 }
 
 .cal-prev,
 .cal-next {
-  flex-grow: 1;
   flex-basis: 20px;
   display: flex;
   justify-content: center;
@@ -115,17 +115,18 @@ i[class^="icon-"], i[class*=" icon-"] {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
 }
 
 .cal-date-week {
-  flex-grow: 1;
+  /*flex-grow: 1;*/
   display: flex;
   justify-content: space-around;
 }
 
 .cal-date-entry {
-  flex-grow: 1;
-  flex-basis: 24px;
+  flex-basis: 2.5em;
+  height: 2.5em;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -165,4 +166,21 @@ i[class^="icon-"], i[class*=" icon-"] {
 
 .icon-arrow-right:before {
   content: '\e80f';
+}
+
+.cal-current-date {
+  border-radius: 2em;
+  background-color: #006666;
+}
+
+.cal-date-entry.cal-current-date > .cal-text {
+  color: white;
+}
+
+.fade {
+  opacity: 0.5;
+}
+
+.fade > .cal-text {
+  font-weight: 400;
 }

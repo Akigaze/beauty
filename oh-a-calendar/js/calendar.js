@@ -315,11 +315,13 @@ class Calendar {
     const elements = this.getElements()
     const STYLE = this.get('STYLE')
     const year = this.getYear();
+    const month = this.getMonth();
+    const date = this.getDate();
     const $title = elements.title
     const $date = elements.date
-    const $day = elements.day
 
-    const time = new Date(year, this.getMonth(), 1)
+    const $day = elements.day
+    const time = new Date(year, month, date.date)
 
     const dateText = $date.querySelector('.' + STYLE.TEXT)
     const dayText = $day.querySelector('.' + STYLE.TEXT)
@@ -387,6 +389,7 @@ class Calendar {
     const STYLE = this.get('STYLE')
     const month = this.getMonth()
     const year = this.getYear()
+    const date = this.getDate()
     const timeOfFirstDate = new Date(year, month, 1)
 
     const datesOfMonth = this.getDatesOfMonth(year, month)
@@ -399,7 +402,7 @@ class Calendar {
     let yearOfLastMonth = year
     let lastMonth = month - 1
     if (lastMonth < 0) {
-      lastMonth = 12 - lastMonth
+      lastMonth = 12 + lastMonth
       yearOfLastMonth = yearOfLastMonth - 1
     }
     const datesOfLastMonth = this.getDatesOfMonth(yearOfLastMonth, lastMonth)
@@ -421,7 +424,7 @@ class Calendar {
 
     let yearOfNextMonth = year
     let nextMonth = month + 1
-    if (lastMonth <= 12) {
+    if (nextMonth >= 12) {
       nextMonth = nextMonth - 12
       yearOfNextMonth = yearOfNextMonth + 1
     }
@@ -431,17 +434,24 @@ class Calendar {
     }
 
     let dateByWeek = Utils.partition(dateEntries, 7)
-
     for (let dates of dateByWeek) {
-      const dateNodes = dates.map(e => DOM.createElement('div',
-        {
-          className: STYLE.DATE_ENTRY,
-          'data-year': e.year,
-          'data-month': e.month,
-          'data-day': e.day,
-          'data-date': e.date
-        },
-        [DOM.createElement('span', {className: STYLE.TEXT}, [e.month === month ? e.date : null])]))
+      const dateNodes = dates.map(e => {
+        let CLZ_NAME = STYLE.DATE_ENTRY
+        if (e.date === date.date && e.month === month) {
+          CLZ_NAME = CLZ_NAME + ' ' + STYLE.CURRENT
+        } else if (e.month !== month) {
+          CLZ_NAME = CLZ_NAME + ' ' + STYLE.FADE
+        }
+        return DOM.createElement('div',
+          {
+            className: CLZ_NAME,
+            'data-year': e.year,
+            'data-month': e.month,
+            'data-day': e.day,
+            'data-date': e.date
+          },
+          [DOM.createElement('span', {className: STYLE.TEXT}, [e.date])])
+      })
       const weekNode = DOM.createElement('div', {className: STYLE.DATES_OF_WEEK}, dateNodes)
       $dates.appendChild(weekNode)
     }
@@ -449,7 +459,7 @@ class Calendar {
     return this
   }
 
-  _repaintTitle(){
+  _repaintTitle() {
     const elements = this.getElements()
     let $title = elements.title;
     $title.innerHTML = ''
@@ -784,5 +794,7 @@ Calendar.defaults = {
     TEXT: 'cal-text',
     ICON_PREV: 'icon-arrow-left',
     ICON_NEXT: 'icon-arrow-right',
+    CURRENT: 'cal-current-date',
+    FADE: 'fade',
   }
 }
