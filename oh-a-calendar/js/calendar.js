@@ -442,18 +442,17 @@ class Calendar {
         } else if (e.month !== month) {
           CLZ_NAME = CLZ_NAME + ' ' + STYLE.FADE
         }
-        return DOM.createElement('div',
-          {
-            className: CLZ_NAME,
-            'data-year': e.year,
-            'data-month': e.month,
-            'data-day': e.day,
-            'data-date': e.date
-          },
-          [DOM.createElement('span', {className: STYLE.TEXT}, [e.date])])
+        return DOM.createElement('div', {className: STYLE.DATE_ENTRY_WRAP},
+          [DOM.createElement('div', {className: CLZ_NAME, 'data-year': e.year, 'data-month': e.month, 'data-day': e.day, 'data-date': e.date},
+            [DOM.createElement('span', {className: STYLE.TEXT}, [e.date])])])
       })
       const weekNode = DOM.createElement('div', {className: STYLE.DATES_OF_WEEK}, dateNodes)
       $dates.appendChild(weekNode)
+    }
+
+    for (let i = 0; i < 6 - dateByWeek.length; i++) {
+      const emptyWeekNode = DOM.createElement('div', {className: STYLE.DATES_OF_WEEK + ' ' + STYLE.EMPTY})
+      $dates.appendChild(emptyWeekNode)
     }
 
     return this
@@ -790,11 +789,13 @@ Calendar.defaults = {
     DAY_ENTRY: 'cal-day-entry',
     DATES: 'cal-dates',
     DATES_OF_WEEK: 'cal-date-week',
+    DATE_ENTRY_WRAP: 'cal-date-entry-wrap',
     DATE_ENTRY: 'cal-date-entry',
     TEXT: 'cal-text',
     ICON_PREV: 'icon-arrow-left',
     ICON_NEXT: 'icon-arrow-right',
     CURRENT: 'cal-current-date',
     FADE: 'fade',
+    EMPTY: 'empty',
   }
 }

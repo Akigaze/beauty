@@ -15,17 +15,25 @@ i[class^="icon-"], i[class*=" icon-"] {
   flex-direction: column;
 }
 
+.cal-header,
+.cal-body {
+  display: flex;
+}
+
 .cal-header {
   flex-basis: 64px;
-  display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.cal-title {
-  flex-grow: 8;
+.cal-title,
+.cal-switcher {
   display: flex;
   flex-direction: row;
+}
+
+.cal-title {
+  width: 70%;
   justify-content: flex-start;
 }
 
@@ -41,7 +49,7 @@ i[class^="icon-"], i[class*=" icon-"] {
 }
 
 .cal-date {
-  flex-basis: 150px;
+  flex-basis: 25%;
   flex-grow: 1;
   justify-content: center;
 }
@@ -53,7 +61,7 @@ i[class^="icon-"], i[class*=" icon-"] {
 
 .cal-day {
   flex-basis: 100px;
-  flex-grow: 8;
+  flex-grow: 1;
 }
 
 .cal-day .cal-text {
@@ -62,9 +70,7 @@ i[class^="icon-"], i[class*=" icon-"] {
 
 .cal-switcher {
   flex-basis: 60px;
-  flex-grow: 2;
-  display: flex;
-  flex-direction: row;
+  flex-grow: 1;
   justify-content: space-around;
 }
 
@@ -85,16 +91,18 @@ i[class^="icon-"], i[class*=" icon-"] {
 .cal-body {
   flex-basis: 100px;
   flex-grow: 1;
-  display: flex;
   flex-direction: column;
+}
+
+.cal-days,
+.cal-dates {
+  display: flex;
+  justify-content: space-between;
 }
 
 .cal-days {
   flex-basis: 48px;
-
-  display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
 }
 
@@ -113,24 +121,39 @@ i[class^="icon-"], i[class*=" icon-"] {
 
 .cal-dates {
   flex-grow: 1;
-  display: flex;
   flex-direction: column;
-  justify-content: space-around;
 }
 
 .cal-date-week {
-  /*flex-grow: 1;*/
+  height: 1em;
+  flex-grow: 1;
   display: flex;
   justify-content: space-around;
 }
 
-.cal-date-entry {
-  flex-basis: 2.5em;
-  height: 2.5em;
+.cal-date-week.empty {}
+
+.cal-date-entry-wrap,
+.cal-date-entry{
   display: flex;
   justify-content: center;
   align-items: center;
+}
 
+.cal-date-entry-wrap {
+  flex-grow: 1;
+  flex-basis: 36px;
+}
+
+.cal-date-entry {
+  border-radius: 2em;
+  height: 2em;
+  width: 2em;
+  cursor: pointer;
+}
+
+.cal-date-entry:not(.cal-current-date):hover {
+  background-color: #d4d4d4;
 }
 
 .cal-date-entry > .cal-text {
@@ -140,7 +163,8 @@ i[class^="icon-"], i[class*=" icon-"] {
 }
 
 .cal-text {
-
+  line-height: 1em;
+  text-align: center;
 }
 
 .cal-switcher .icon-arrow-left:before,
@@ -157,7 +181,7 @@ i[class^="icon-"], i[class*=" icon-"] {
 
 .icon-arrow-left:hover,
 .icon-arrow-right:hover {
-  color: #7a7a7b;
+  color: #006666;
 }
 
 .icon-arrow-left:before {
@@ -169,7 +193,6 @@ i[class^="icon-"], i[class*=" icon-"] {
 }
 
 .cal-current-date {
-  border-radius: 2em;
   background-color: #006666;
 }
 
