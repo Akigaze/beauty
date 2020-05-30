@@ -8,6 +8,7 @@
   box-sizing: border-box;
   font-size: 16px;
   font-family: 'Colfax', sans-serif;
+  font-weight: 400;
   transition: color 200ms, background-color 200ms, opacity 200ms;
 }
 
@@ -69,12 +70,12 @@ body {
 }
 
 #container > .right #calendar {
-  flex-grow: 1;
+  flex-grow: 2;
   flex-basis: 200px;
 }
 
 #container > .right #timeline {
-  flex-grow: 1;
+  flex-grow: 3;
   flex-basis: 200px;
 
   border-radius: 0 0 28px 0;

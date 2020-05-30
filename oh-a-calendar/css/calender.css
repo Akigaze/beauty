@@ -55,7 +55,7 @@ i[class^="icon-"], i[class*=" icon-"] {
 }
 
 .cal-date .cal-text {
-  font-weight: bold;
+  font-weight: 500;
   color: #343956;
 }
 
@@ -116,7 +116,7 @@ i[class^="icon-"], i[class*=" icon-"] {
 
 .cal-day-entry > .cal-text {
   color: #babfc2;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .cal-dates {
@@ -158,8 +158,7 @@ i[class^="icon-"], i[class*=" icon-"] {
 
 .cal-date-entry > .cal-text {
   color: #8a8e94;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 16px;
 }
 
 .cal-text {
@@ -169,7 +168,6 @@ i[class^="icon-"], i[class*=" icon-"] {
 
 .cal-switcher .icon-arrow-left:before,
 .cal-switcher .icon-arrow-right:before {
-  font-weight: bold;
   font-size: 24px;
 }
 
@@ -205,5 +203,4 @@ i[class^="icon-"], i[class*=" icon-"] {
 }
 
 .fade > .cal-text {
-  font-weight: 400;
 }
