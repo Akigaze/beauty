@@ -1,6 +1,5 @@
 @import "font.css";
 @import "common.css";
-@import "calender.css";
 
 * {
   padding: 0;
@@ -55,6 +54,11 @@ body {
   flex-basis: 80px;
 }
 
+
+#container > .right > footer {
+  flex-basis: 30px;
+}
+
 #container > .right > .cutoff-line-x {
   width: 90%;
   background-color: #f3f3f3;
@@ -77,8 +81,10 @@ body {
 #container > .right #timeline {
   flex-grow: 3;
   flex-basis: 200px;
+  overflow-y: hidden;
 
-  border-radius: 0 0 28px 0;
+  display: flex;
+  justify-content: center;
 }
 
 #calendar {
